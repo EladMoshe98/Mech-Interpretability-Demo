@@ -15,7 +15,7 @@ export function Header() {
                 Goose Explainability
               </h1>
               <p className="text-xs text-muted-foreground">
-                Assistant Axis Demo • Llama 3.3 70B
+                Feature Steering Demo • Gemma 2 9B
               </p>
             </div>
           </div>
