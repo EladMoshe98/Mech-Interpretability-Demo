@@ -15,6 +15,18 @@ interface SteerRequest {
   messages: ChatMessage[];
 }
 
+// Helper to extract the last assistant response from chatTemplate
+function extractLastAssistantMessage(chatTemplate: Array<{ role: string; content: string }> | undefined): string | null {
+  if (!chatTemplate || chatTemplate.length === 0) return null;
+  // Find the last message from the model/assistant
+  for (let i = chatTemplate.length - 1; i >= 0; i--) {
+    if (chatTemplate[i].role === "model" || chatTemplate[i].role === "assistant") {
+      return chatTemplate[i].content;
+    }
+  }
+  return null;
+}
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === "OPTIONS") {
@@ -40,26 +52,27 @@ serve(async (req) => {
       content: msg.content,
     }));
 
-    // Call Neuronpedia's steer-chat API
-    // This endpoint generates both default and steered responses
+    // Using gemma-2-9b-it with a sycophancy feature for demonstration
+    // The llama3.3-70b-it model with Assistant Axis vector is not available via public API
+    // We use Gemma with a helpful/assistant-like feature instead
     const neuronpediaPayload = {
       defaultChatMessages: chatMessages,
       steeredChatMessages: chatMessages,
-      modelId: "llama3.3-70b-it",
+      modelId: "gemma-2-9b-it",
       features: [
         {
-          modelId: "llama3.3-70b-it",
-          layer: "40-neuronpedia-resid-post",
-          index: 101874252,
-          strength: 10,
+          modelId: "gemma-2-9b-it",
+          layer: "9-gemmascope-res-131k",
+          index: 62610, // This is a feature that modifies behavior
+          strength: 48,
         },
       ],
       temperature: 0.7,
-      n_tokens: 512,
-      freq_penalty: 0,
+      n_tokens: 256,
+      freq_penalty: 1,
       seed: Math.floor(Math.random() * 10000),
-      strength_multiplier: 1,
-      steer_special_tokens: false,
+      strength_multiplier: 4,
+      steer_special_tokens: true,
       steer_method: "SIMPLE_ADDITIVE",
     };
 
@@ -89,14 +102,17 @@ serve(async (req) => {
     const data = await response.json();
     console.log("Neuronpedia response:", JSON.stringify(data, null, 2));
 
-    // Extract the responses
-    // The API returns { default: { raw, chat_template }, steered: { raw, chat_template }, id, shareUrl }
-    const defaultResponse = data.default?.chat_template?.[data.default.chat_template.length - 1]?.content 
-      || data.default?.raw 
+    // The API returns uppercase keys: DEFAULT, STEERED with chatTemplate (camelCase)
+    const defaultData = data.DEFAULT || data.default;
+    const steeredData = data.STEERED || data.steered;
+
+    // Extract the last assistant message from chatTemplate
+    const defaultResponse = extractLastAssistantMessage(defaultData?.chatTemplate || defaultData?.chat_template)
+      || defaultData?.raw 
       || "No response generated";
     
-    const steeredResponse = data.steered?.chat_template?.[data.steered.chat_template.length - 1]?.content 
-      || data.steered?.raw 
+    const steeredResponse = extractLastAssistantMessage(steeredData?.chatTemplate || steeredData?.chat_template)
+      || steeredData?.raw 
       || "No response generated";
 
     return new Response(
