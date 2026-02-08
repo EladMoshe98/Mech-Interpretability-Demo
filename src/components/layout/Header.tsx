@@ -1,5 +1,6 @@
 import React from "react";
 import { ExternalLink, HelpCircle } from "lucide-react";
+import gooseLogo from "@/assets/goose-logo.png";
 import {
   Dialog,
   DialogContent,
@@ -14,9 +15,11 @@ export function Header() {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-md bg-foreground flex items-center justify-center">
-              <div className="w-4 h-4 border-2 border-background rounded-sm" />
-            </div>
+            <img 
+              src={gooseLogo} 
+              alt="Goose logo" 
+              className="w-9 h-9 rounded-md"
+            />
             <div className="flex items-baseline gap-2">
               <h1 className="font-bold text-xl tracking-wide text-foreground">
                 GOOSE
