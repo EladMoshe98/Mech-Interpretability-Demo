@@ -73,7 +73,7 @@ serve(async (req) => {
         },
       ],
       temperature: 0.7,
-      n_tokens: 512,
+      n_tokens: 256,
       freq_penalty: 1,
       seed: 16,
       strength_multiplier: 4,
