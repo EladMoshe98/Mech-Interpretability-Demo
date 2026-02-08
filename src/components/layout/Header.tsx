@@ -44,22 +44,22 @@ export function Header() {
                 </DialogHeader>
                 <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                   <p>
-                    Goose is an explainable AI company built for the realities of the banking and financial services industry. We help institutions deploy advanced AI systems that are transparent, auditable, and aligned with regulatory and risk requirements—so decision-makers can trust not just the outcomes, but the reasoning behind them.
+                    Goose builds explainable, auditable AI for the financial industry—replacing black-box models with systems banks and regulators can trust.
                   </p>
                   <p>
-                    Our technology makes complex models understandable to humans, enabling clearer credit decisions, risk assessments, compliance reviews, and governance across the AI lifecycle. By turning "black box" models into interpretable systems, Goose bridges the gap between innovation and accountability in finance.
+                    We use <span className="font-medium text-foreground">feature steering</span>: brain surgery on LLMs—directly shaping internal reasoning, not just prompts. Powered by the open-source <a href="https://www.neuronpedia.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Neuronpedia API</a>.
                   </p>
-                  <p>
-                    Goose was founded by Elad Moshe, Iñigo Martos, and Roberto Palacios, combining expertise in AI, financial systems, and scalable product development to bring explainable AI from theory into real-world banking operations.
-                  </p>
-                  <p className="pt-2">
-                    <a 
-                      href="mailto:info@gooseai.com" 
-                      className="text-primary hover:underline font-medium"
-                    >
-                      Contact us at info@gooseai.com
-                    </a>
-                  </p>
+                  <div className="pt-2">
+                    <p className="text-xs text-muted-foreground/70 mb-1">Founded by</p>
+                    <p className="font-bold text-foreground tracking-wide">
+                      ELAD MOSHE • IÑIGO MARTOS • ROBERTO PALACIOS
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-border/50">
+                    <p className="text-xs text-muted-foreground/60">
+                      © Goose Inc. All rights reserved.
+                    </p>
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
