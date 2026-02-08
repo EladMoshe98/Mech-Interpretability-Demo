@@ -3,91 +3,91 @@
 @tailwind utilities;
 
 /* Goose Explainability Design System
-   Inspired by Neuronpedia's clean research interface
-   Dark mode first, with warm vs cool panel contrasts
+   Light, professional theme for financial services
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @layer base {
   :root {
-    /* Core background - dark slate with subtle blue undertone */
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* Core background - light cream/off-white */
+    --background: 40 20% 98%;
+    --foreground: 220 25% 15%;
 
-    /* Card surfaces - slightly elevated from background */
-    --card: 220 40% 13%;
-    --card-foreground: 210 40% 98%;
+    /* Card surfaces - pure white with subtle warmth */
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
 
     /* Popover/Dialog surfaces */
-    --popover: 220 40% 13%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
 
-    /* Primary - teal/cyan for key actions */
-    --primary: 173 80% 40%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - sophisticated deep teal */
+    --primary: 173 60% 35%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Secondary - muted for less prominent elements */
-    --secondary: 217 32% 18%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary - soft gray */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 25% 25%;
 
     /* Muted - for subtle backgrounds and text */
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 14% 95%;
+    --muted-foreground: 220 10% 45%;
 
-    /* Accent - warm orange for highlights */
-    --accent: 25 95% 53%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent - warm gold for highlights */
+    --accent: 38 70% 50%;
+    --accent-foreground: 0 0% 100%;
 
     /* Destructive - for errors/warnings */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
     /* Border and input styling */
-    --border: 217 32% 20%;
-    --input: 217 32% 20%;
-    --ring: 173 80% 40%;
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 173 60% 35%;
 
     --radius: 0.75rem;
 
     /* Panel colors - key design element */
-    /* Default panel - warm amber tones */
-    --panel-default: 220 40% 14%;
-    --panel-default-bubble: 220 35% 18%;
-    --panel-default-accent: 35 92% 50%;
+    /* Default panel - warm cream tones */
+    --panel-default: 35 30% 97%;
+    --panel-default-bubble: 35 25% 94%;
+    --panel-default-accent: 38 70% 50%;
     
-    /* Steered panel - cool cyan tones */
-    --panel-steered: 200 50% 12%;
-    --panel-steered-bubble: 190 45% 16%;
-    --panel-steered-accent: 173 80% 50%;
+    /* Steered panel - cool slate tones */
+    --panel-steered: 200 25% 97%;
+    --panel-steered-bubble: 200 20% 94%;
+    --panel-steered-accent: 173 60% 40%;
 
-    /* User message - distinct warm color */
-    --user-bubble: 210 60% 25%;
-    --user-bubble-foreground: 210 40% 98%;
+    /* User message - sophisticated dark */
+    --user-bubble: 220 25% 20%;
+    --user-bubble-foreground: 0 0% 100%;
 
     /* Assistant message - panel-specific */
-    --assistant-bubble-default: 35 30% 20%;
-    --assistant-bubble-steered: 173 30% 18%;
+    --assistant-bubble-default: 35 20% 92%;
+    --assistant-bubble-steered: 190 20% 92%;
 
-    /* Sidebar colors (for completeness) */
-    --sidebar-background: 220 40% 10%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 173 80% 40%;
-    --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 217 32% 17%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 32% 20%;
-    --sidebar-ring: 173 80% 40%;
+    /* Sidebar colors */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 25% 15%;
+    --sidebar-primary: 173 60% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 220 25% 25%;
+    --sidebar-border: 220 13% 90%;
+    --sidebar-ring: 173 60% 35%;
 
     /* Gradient definitions */
-    --gradient-default: linear-gradient(135deg, hsl(35 92% 50% / 0.1), hsl(25 95% 53% / 0.05));
-    --gradient-steered: linear-gradient(135deg, hsl(173 80% 50% / 0.1), hsl(190 80% 40% / 0.05));
-    --gradient-hero: linear-gradient(135deg, hsl(173 80% 40%), hsl(190 80% 50%));
+    --gradient-default: linear-gradient(135deg, hsl(38 70% 50% / 0.05), hsl(35 60% 55% / 0.02));
+    --gradient-steered: linear-gradient(135deg, hsl(173 60% 40% / 0.05), hsl(190 50% 45% / 0.02));
+    --gradient-hero: linear-gradient(135deg, hsl(173 60% 35%), hsl(190 50% 45%));
   }
 
-  /* No light mode - this is a dark app */
   .dark {
-    /* Same as root since we're dark mode only */
+    /* Dark mode override if needed in future */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
   }
 }
 
