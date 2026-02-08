@@ -96,11 +96,21 @@ serve(async (req) => {
       const errorText = await response.text();
       console.error("Neuronpedia API error:", response.status, errorText);
       
+      // Check for conversation length limit error
+      if (errorText.includes("exceeds the maximum number of characters")) {
+        return new Response(
+          JSON.stringify({ 
+            error: "Conversation too long",
+            userMessage: "The conversation has exceeded the maximum length. Please click the reset button to start a new chat."
+          }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+      
       return new Response(
         JSON.stringify({ 
           error: `Neuronpedia API error: ${response.status}`, 
-          details: errorText,
-          note: "Llama 3.3 70B steering failed. The custom vector may have dimension mismatch or the model may require special API access."
+          details: errorText
         }),
         { status: response.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
