@@ -104,53 +104,41 @@ serve(async (req) => {
     
     let neuronpediaPayload;
     
-    if (vectorInfo) {
-      // Use the custom Assistant Axis vector with Llama 3.3 70B
-      console.log("Using custom Assistant Axis vector with Llama 3.3 70B");
-      neuronpediaPayload = {
-        defaultChatMessages: chatMessages,
-        steeredChatMessages: chatMessages,
-        modelId: VECTOR_METADATA.modelId,
-        features: [
-          {
-            modelId: VECTOR_METADATA.modelId,
-            layer: vectorInfo.source,
-            index: vectorInfo.vectorId,
-            strength: VECTOR_METADATA.vectorDefaultSteerStrength,
-          },
-        ],
-        temperature: 0.7,
-        n_tokens: 256,
-        freq_penalty: 1,
-        seed: Math.floor(Math.random() * 10000),
-        strength_multiplier: 4,
-        steer_special_tokens: true,
-        steer_method: "SIMPLE_ADDITIVE",
-      };
-    } else {
-      // Fallback to Gemma 2 9B if vector upload fails
-      console.log("Falling back to Gemma 2 9B (vector upload failed or Llama 70B not available)");
-      neuronpediaPayload = {
-        defaultChatMessages: chatMessages,
-        steeredChatMessages: chatMessages,
-        modelId: "gemma-2-9b-it",
-        features: [
-          {
-            modelId: "gemma-2-9b-it",
-            layer: "9-gemmascope-res-131k",
-            index: 62610,
-            strength: 48,
-          },
-        ],
-        temperature: 0.7,
-        n_tokens: 256,
-        freq_penalty: 1,
-        seed: Math.floor(Math.random() * 10000),
-        strength_multiplier: 4,
-        steer_special_tokens: true,
-        steer_method: "SIMPLE_ADDITIVE",
-      };
+    if (!vectorInfo) {
+      // Return error instead of falling back to cat persona
+      console.error("Vector upload failed - cannot proceed without custom vector");
+      return new Response(
+        JSON.stringify({ 
+          error: "Vector upload failed", 
+          details: "The custom Assistant Axis vector could not be uploaded to Neuronpedia. This may be due to model dimension mismatch or API access restrictions for Llama 3.3 70B.",
+          suggestion: "Llama 3.3 70B inference may require special API access. Contact Neuronpedia for access."
+        }),
+        { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
+
+    // Use the custom Assistant Axis vector with Llama 3.3 70B
+    console.log("Using custom Assistant Axis vector with Llama 3.3 70B");
+    const neuronpediaPayload = {
+      defaultChatMessages: chatMessages,
+      steeredChatMessages: chatMessages,
+      modelId: VECTOR_METADATA.modelId,
+      features: [
+        {
+          modelId: VECTOR_METADATA.modelId,
+          layer: vectorInfo.source,
+          index: vectorInfo.vectorId,
+          strength: VECTOR_METADATA.vectorDefaultSteerStrength,
+        },
+      ],
+      temperature: 0.7,
+      n_tokens: 256,
+      freq_penalty: 1,
+      seed: Math.floor(Math.random() * 10000),
+      strength_multiplier: 4,
+      steer_special_tokens: true,
+      steer_method: "SIMPLE_ADDITIVE",
+    };
 
     console.log("Calling Neuronpedia API with payload:", JSON.stringify(neuronpediaPayload, null, 2));
 
@@ -167,58 +155,12 @@ serve(async (req) => {
       const errorText = await response.text();
       console.error("Neuronpedia API error:", response.status, errorText);
       
-      // If Llama 70B fails, try fallback to Gemma
-      if (vectorInfo && response.status >= 400) {
-        console.log("Llama 70B steering failed, trying Gemma 2 9B fallback...");
-        const fallbackPayload = {
-          defaultChatMessages: chatMessages,
-          steeredChatMessages: chatMessages,
-          modelId: "gemma-2-9b-it",
-          features: [
-            {
-              modelId: "gemma-2-9b-it",
-              layer: "9-gemmascope-res-131k",
-              index: 62610,
-              strength: 48,
-            },
-          ],
-          temperature: 0.7,
-          n_tokens: 256,
-          freq_penalty: 1,
-          seed: Math.floor(Math.random() * 10000),
-          strength_multiplier: 4,
-          steer_special_tokens: true,
-          steer_method: "SIMPLE_ADDITIVE",
-        };
-        
-        const fallbackResponse = await fetch("https://www.neuronpedia.org/api/steer-chat", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": NEURONPEDIA_API_KEY,
-          },
-          body: JSON.stringify(fallbackPayload),
-        });
-        
-        if (fallbackResponse.ok) {
-          const fallbackData = await fallbackResponse.json();
-          const defaultData = fallbackData.DEFAULT || fallbackData.default;
-          const steeredData = fallbackData.STEERED || fallbackData.steered;
-          
-          return new Response(
-            JSON.stringify({
-              default: extractLastAssistantMessage(defaultData?.chatTemplate) || defaultData?.raw || "No response",
-              steered: extractLastAssistantMessage(steeredData?.chatTemplate) || steeredData?.raw || "No response",
-              shareUrl: fallbackData.shareUrl,
-              note: "Using Gemma 2 9B fallback (Llama 3.3 70B inference not available via public API)",
-            }),
-            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-          );
-        }
-      }
-      
       return new Response(
-        JSON.stringify({ error: `Neuronpedia API error: ${response.status}`, details: errorText }),
+        JSON.stringify({ 
+          error: `Neuronpedia API error: ${response.status}`, 
+          details: errorText,
+          note: "Llama 3.3 70B steering failed. The custom vector may have dimension mismatch or the model may require special API access."
+        }),
         { status: response.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
