@@ -1,5 +1,5 @@
 import React from "react";
-import { ExternalLink, HelpCircle, Shield } from "lucide-react";
+import { ExternalLink, HelpCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -14,16 +14,16 @@ export function Header() {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-sm">
-              <Shield className="h-5 w-5 text-primary-foreground" />
+            <div className="w-9 h-9 rounded-md bg-foreground flex items-center justify-center">
+              <div className="w-4 h-4 border-2 border-background rounded-sm" />
             </div>
-            <div>
-              <h1 className="font-bold text-lg text-foreground">
-                Goose Explainability
+            <div className="flex items-baseline gap-2">
+              <h1 className="font-bold text-xl tracking-wide text-foreground">
+                GOOSE
               </h1>
-              <p className="text-xs text-muted-foreground">
-                Feature Steering Demo • Gemma 2 9B
-              </p>
+              <span className="text-sm text-muted-foreground">
+                AI Financial Advisory
+              </span>
             </div>
           </div>
 
