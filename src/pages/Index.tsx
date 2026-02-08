@@ -44,7 +44,7 @@ const Index = () => {
           {/* Steered Panel */}
           <ChatPanel
             title="Steered"
-            subtitle="'Helpful Assistant' feature activated"
+            subtitle="Tesla/Elon Musk features activated"
             messages={steeredChat.messages}
             isLoading={steeredChat.isLoading}
             variant="steered"

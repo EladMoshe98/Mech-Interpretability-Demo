@@ -15,13 +15,21 @@ interface SteerRequest {
   messages: ChatMessage[];
 }
 
-// Use Gemma 2 9B with the "helpful assistant" feature (well-documented & supported)
-const STEER_VECTOR_REF = {
-  modelId: "gemma-2-9b-it",
-  source: "9-gemmascope-res-131k",
-  index: "43393", // "helpful assistant" feature
-  strength: 40,
-} as const;
+// Dual Tesla/Elon Musk steering features
+const STEER_FEATURES = [
+  {
+    modelId: "gemma-2-9b-it",
+    layer: "9-gemmascope-res-16k",
+    index: "11613",
+    strength: 70,
+  },
+  {
+    modelId: "gemma-2-9b-it",
+    layer: "9-gemmascope-res-131k",
+    index: "19853",
+    strength: 40,
+  },
+];
 
 // Helper to extract the last assistant response from chatTemplate
 function extractLastAssistantMessage(chatTemplate: Array<{ role: string; content: string }> | undefined): string | null {
@@ -57,28 +65,19 @@ serve(async (req) => {
       content: msg.content,
     }));
 
-    const vectorInfo = STEER_VECTOR_REF;
-    console.log("Using Neuronpedia Gemma 2 9B vector:", vectorInfo);
+    console.log("Using dual Tesla/Elon Musk steering features:", STEER_FEATURES);
 
     const neuronpediaPayload = {
       defaultChatMessages: chatMessages,
       steeredChatMessages: chatMessages,
-      modelId: vectorInfo.modelId,
-      features: [
-        {
-          modelId: vectorInfo.modelId,
-          layer: vectorInfo.source,
-          index: vectorInfo.index,
-          strength: vectorInfo.strength,
-        },
-      ],
-      temperature: 0.7,
+      modelId: "gemma-2-9b-it",
+      features: STEER_FEATURES,
+      temperature: 0.5,
       n_tokens: 256,
       freq_penalty: 1,
       seed: 16,
-      strength_multiplier: 4,
+      strength_multiplier: 1,
       steer_special_tokens: true,
-      
     };
 
     console.log("Calling Neuronpedia API with payload:", JSON.stringify(neuronpediaPayload, null, 2));

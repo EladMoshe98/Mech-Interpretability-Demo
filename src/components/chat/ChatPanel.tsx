@@ -68,7 +68,7 @@ export function ChatPanel({
               <p className="text-base">
                 {variant === "default"
                   ? "Standard Gemma 2 9B responses"
-                  : "Gemma 2 9B with 'Helpful Assistant' feature steering"}
+                  : "Gemma 2 9B with Tesla/Elon Musk feature steering"}
               </p>
               <p className="text-sm mt-1 opacity-70">
                 Send a message to start
