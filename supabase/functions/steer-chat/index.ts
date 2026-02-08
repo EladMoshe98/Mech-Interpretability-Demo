@@ -119,7 +119,7 @@ serve(async (req) => {
 
     // Use the custom Assistant Axis vector with Llama 3.3 70B
     console.log("Using custom Assistant Axis vector with Llama 3.3 70B");
-    const neuronpediaPayload = {
+    neuronpediaPayload = {
       defaultChatMessages: chatMessages,
       steeredChatMessages: chatMessages,
       modelId: VECTOR_METADATA.modelId,
