@@ -1,40 +1,58 @@
 
 
-## Plan: Fix Vector Dimension Mismatch and Remove Cat Fallback
+# Tesla/Elon Musk Steering Implementation
 
-### Problem Summary
-The Llama 3.3 70B vector upload is failing with "Vector dimension does not match model dimension" error. The code then falls back to Gemma 2 9B with feature `62610`, which is a "cat persona" feature causing the bizarre responses.
+## Overview
+Update the steering configuration to use dual Tesla/Elon Musk features instead of the single "Helpful Assistant" feature.
 
-### Investigation Needed
-1. Research the correct model ID for Llama 3.3 70B on Neuronpedia
-2. Verify the expected vector dimensions for available models
-3. Find a more appropriate fallback feature (not cat-related)
+## Changes
 
-### Proposed Fix
+### 1. Edge Function Update
+**File:** `supabase/functions/steer-chat/index.ts`
 
-**Option A: Fix the model ID**
-- The Neuronpedia API may use a different model identifier
-- Try variations like `llama-3.3-70b-instruct`, `meta-llama-3.3-70b-it`, etc.
+Replace the current single-feature configuration with dual features:
 
-**Option B: Remove/Replace the Gemma fallback**
-- Remove the cat feature fallback entirely
-- Or replace feature `62610` with a neutral/helpful assistant feature
+**Current:**
+```typescript
+const STEER_VECTOR_REF = {
+  modelId: "gemma-2-9b-it",
+  source: "9-gemmascope-res-131k",
+  index: "43393", // "helpful assistant" feature
+  strength: 40,
+};
+```
 
-**Option C: Return a clear error instead of fallback**
-- When Llama 70B fails, show an informative error message instead of using a broken fallback
+**New:**
+```typescript
+const STEER_FEATURES = [
+  {
+    modelId: "gemma-2-9b-it",
+    layer: "9-gemmascope-res-16k",
+    index: "11613",
+    strength: 70,
+  },
+  {
+    modelId: "gemma-2-9b-it", 
+    layer: "9-gemmascope-res-131k",
+    index: "19853",
+    strength: 40,
+  },
+];
+```
 
-### Recommended Approach
-1. Update the edge function to return a clear error message when vector upload fails (no cat fallback)
-2. Research the correct Neuronpedia model ID for Llama 3.3 70B
-3. Once we have the correct model ID, update the configuration
+Update API payload parameters:
+- `temperature`: 0.7 → 0.5
+- `strength_multiplier`: 4 → 1
 
-### Code Changes
+### 2. UI Text Updates
 
-**File: `supabase/functions/steer-chat/index.ts`**
-- Remove the Gemma 2 9B cat feature fallback
-- Return an informative error explaining that Llama 3.3 70B vector upload failed
-- Add logging to help debug the correct model configuration
+**File:** `src/pages/Index.tsx`
+- Steered panel subtitle: `"'Helpful Assistant' feature activated"` → `"Tesla/Elon Musk features activated"`
 
-**File: `supabase/functions/steer-chat/assistant-axis-vector.ts`**
-- Potentially update the `modelId` if we find the correct identifier
+**File:** `src/components/chat/ChatPanel.tsx`
+- Empty state text for steered panel: Update to mention Tesla/Elon Musk steering
+
+## Technical Details
+
+The `features` array in the Neuronpedia API payload will now contain two feature objects instead of one, enabling combined steering toward Tesla and Elon Musk topics.
 
