@@ -15,13 +15,12 @@ interface SteerRequest {
   messages: ChatMessage[];
 }
 
-// Neuronpedia already hosts the Assistant Axis vector for Llama 3.3 70B.
-// Using it directly avoids custom vector upload failures (dimension mismatch) and reduces payload size.
-const ASSISTANT_AXIS_VECTOR_REF = {
-  modelId: "llama3.3-70b-it",
-  source: "40-neuronpedia-resid-post",
-  index: "101874252",
-  strength: 48,
+// Use Gemma 2 9B with the "helpful assistant" feature (well-documented & supported)
+const STEER_VECTOR_REF = {
+  modelId: "gemma-2-9b-it",
+  source: "9-gemmascope-res-131k",
+  index: "43393", // "helpful assistant" feature
+  strength: 40,
 } as const;
 
 // Helper to extract the last assistant response from chatTemplate
@@ -58,8 +57,8 @@ serve(async (req) => {
       content: msg.content,
     }));
 
-    const vectorInfo = ASSISTANT_AXIS_VECTOR_REF;
-    console.log("Using Neuronpedia-hosted Assistant Axis vector:", vectorInfo);
+    const vectorInfo = STEER_VECTOR_REF;
+    console.log("Using Neuronpedia Gemma 2 9B vector:", vectorInfo);
 
     const neuronpediaPayload = {
       defaultChatMessages: chatMessages,
@@ -124,7 +123,7 @@ serve(async (req) => {
         default: defaultResponse,
         steered: steeredResponse,
         shareUrl: data.shareUrl,
-        model: vectorInfo ? "llama3.3-70b-it" : "gemma-2-9b-it",
+        model: "gemma-2-9b-it",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
