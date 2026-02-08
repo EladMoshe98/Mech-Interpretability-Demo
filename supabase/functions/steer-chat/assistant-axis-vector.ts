@@ -7,7 +7,7 @@ export const ASSISTANT_AXIS_VECTOR: number[] = [0.0087890625,-0.00152587890625,-
 export const VECTOR_METADATA = {
   modelId: "llama3.3-70b-it",
   layerNumber: 40,
-  hookType: "resid-post",
+  hookType: "hook_resid_post", // API requires underscores
   vectorLabel: "assistant-axis",
   vectorDefaultSteerStrength: 48,
 };
