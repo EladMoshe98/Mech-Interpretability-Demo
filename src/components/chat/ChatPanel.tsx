@@ -65,12 +65,12 @@ export function ChatPanel({
         {isEmpty && !isLoading && (
           <div className="flex items-center justify-center h-full">
             <div className="text-center text-muted-foreground">
-              <p className="text-sm">
+              <p className="text-base">
                 {variant === "default"
-                  ? "Default Llama 3.3 70B responses"
-                  : "Responses with Assistant Vector applied"}
+                  ? "Standard Gemma 2 9B responses"
+                  : "Gemma 2 9B with 'Helpful Assistant' feature steering"}
               </p>
-              <p className="text-xs mt-1 opacity-70">
+              <p className="text-sm mt-1 opacity-70">
                 Send a message to start
               </p>
             </div>

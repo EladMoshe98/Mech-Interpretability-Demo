@@ -35,7 +35,7 @@ const Index = () => {
           {/* Default Panel */}
           <ChatPanel
             title="Default"
-            subtitle="No steering applied"
+            subtitle="Standard Gemma 2 9B"
             messages={defaultChat.messages}
             isLoading={defaultChat.isLoading}
             variant="default"
@@ -44,7 +44,7 @@ const Index = () => {
           {/* Steered Panel */}
           <ChatPanel
             title="Steered"
-            subtitle="Feature steering applied"
+            subtitle="'Helpful Assistant' feature activated"
             messages={steeredChat.messages}
             isLoading={steeredChat.isLoading}
             variant="steered"

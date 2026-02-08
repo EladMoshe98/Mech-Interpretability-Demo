@@ -50,9 +50,9 @@
     --radius: 0.75rem;
 
     /* Panel colors - key design element */
-    /* Default panel - warm cream tones */
-    --panel-default: 35 30% 97%;
-    --panel-default-bubble: 35 25% 94%;
+    /* Default panel - neutral gray tones */
+    --panel-default: 220 10% 94%;
+    --panel-default-bubble: 220 8% 90%;
     --panel-default-accent: 38 70% 50%;
     
     /* Steered panel - cool slate tones */
@@ -109,7 +109,7 @@
 @layer components {
   /* Chat bubble base styles */
   .chat-bubble {
-    @apply px-4 py-3 rounded-2xl max-w-[85%] text-sm leading-relaxed;
+    @apply px-4 py-3 rounded-2xl max-w-[85%] text-base leading-relaxed;
   }
 
   .chat-bubble-user {
