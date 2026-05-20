@@ -1,73 +1,30 @@
-# Welcome to your Lovable project
+# Mechanistic Interpretability – LLM Steering Demo
 
-## Project info
+An interactive demo exploring **mechanistic interpretability** of large language models, using the **Neuronpedia API** to perform activation steering on **Llama 3**.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Mechanistic interpretability aims to understand *what* individual neurons and features inside a neural network represent. Activation steering lets you amplify or suppress specific features at inference time to observe how they influence model behavior.
 
-## How can I edit this code?
+## What the Demo Shows
 
-There are several ways of editing your application.
+- Browsing Llama 3 features via the Neuronpedia API
+- Selecting a feature and applying a steering vector during generation
+- Observing how the model's output shifts as feature activation is scaled up/down
 
-**Use Lovable**
+## Live Demo
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+[Open on Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID)
 
-Changes made via Lovable will be committed automatically to this repo.
+## Running Locally
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/eladmoshe98/Mechanistic-Interpretability-LLM-Steering.git
+cd Mechanistic-Interpretability-LLM-Steering
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Requires a [Neuronpedia API key](https://www.neuronpedia.org).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Tech Stack
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+React · TypeScript · Vite · Tailwind CSS · shadcn/ui · Neuronpedia API
